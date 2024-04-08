@@ -1,0 +1,20 @@
+name: SonarQube Analysis
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        run: echo "Checkout repo"
+      - name: Wait to complete
+        run: |
+          echo "Wait to complete"
+          sleep 10
+          echo "Complete"
