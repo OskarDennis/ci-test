@@ -1,9 +1,9 @@
 name: Build Container
 
 on:
-  # Schedule every 10 hours
   schedule:
-    - cron: '0 */10 * * *' # every 10 hours
+    # every 5 minutes
+    - cron: '*/5 * * * *'
   workflow_run:
     workflows: ["SonarQube Analysis"]
     types:
