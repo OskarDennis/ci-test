@@ -7,10 +7,10 @@ on:
         description: Environment
         default: stage.dev
         options:
-          - (STAGE) stage.dev
-          - (STAGE) stage-1.dev
-          - (STAGE) stage-2.dev
-          - (PROD) prod.dev
+          - stage.dev
+          - stage-1.dev
+          - stage-2.dev
+          - prod.dev
 
 jobs:
   build:
