@@ -1,0 +1,23 @@
+name: Build Container
+
+on:
+  # Schedule every 10 hours
+  schedule:
+    - cron: '0 */10 * * *' # every 10 hours
+  workflow_run:
+    workflows: ["SonarQube Analysis"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: echo "Building the project"
+
+      - name: Build for stage
+        run: echo "Building the project for stage"

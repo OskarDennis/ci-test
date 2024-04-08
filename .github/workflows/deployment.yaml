@@ -1,0 +1,34 @@
+name: Build Container
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Environment
+        default: stage.dev
+        options:
+          - (STAGE) stage.dev
+          - (STAGE) stage-1.dev
+          - (STAGE) stage-2.dev
+          - (PROD) prod.dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        run: echo "Checkout code"
+      - name: build container
+        run: echo "Build container"
+      - name: Deploy stage.dev
+        if: github.event.inputs.environment == 'stage.dev'
+        run: echo "Deploy stage.dev"
+      - name: Deploy stage-1.dev
+        if: github.event.inputs.environment == 'stage-1.dev'
+        run: echo "Deploy stage-1.dev"
+      - name: Deploy stage-2.dev
+        if: github.event.inputs.environment == 'stage-2.dev'
+        run: echo "Deploy stage-2.dev"
+      - name: Deploy prod.dev
+        if: github.event.inputs.environment == 'prod.dev'
+        run: echo "Deploy prod.dev"
