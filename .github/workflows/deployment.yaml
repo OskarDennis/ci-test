@@ -28,7 +28,8 @@ jobs:
             if [[ "$GITHUB_REF" == refs/tags/* ]]; then
               echo "This run is from tag"
             else
-              echo "This run is not from tag"
+              echo "::error::This action was not triggered by a tag"
+              exit 1
             fi
           fi
       - name: Deploy stage.dev
