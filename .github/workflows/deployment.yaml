@@ -27,6 +27,7 @@ jobs:
           if [ -n "$GITHUB_REF" ]; then
             if [[ "$GITHUB_REF" == refs/tags/* ]]; then
               echo "This run is from tag"
+              echo ::success::This run is from tag
             else
               echo "::error::This action was not triggered by a tag"
               exit 1
@@ -38,6 +39,9 @@ jobs:
         with:
           images: |
             citest/ciapp
+          tags: |
+            # set latest tag for default branch
+            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Deploy stage.dev
         if: github.event.inputs.environment == 'stage.dev'
