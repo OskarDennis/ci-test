@@ -20,6 +20,17 @@ jobs:
         run: echo "Checkout code"
       - name: build container
         run: echo "Build container"
+      - name: Check if workflow run from tag
+        run: echo "Check if workflow run from tag"
+      - name: Check run is from tag
+        run: |
+          if [ -n "$GITHUB_REF" ]; then
+            if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+              echo "This run is from tag"
+            else
+              echo "This run is not from tag"
+            fi
+          fi
       - name: Deploy stage.dev
         if: github.event.inputs.environment == 'stage.dev'
         run: echo "Deploy stage.dev"
