@@ -31,6 +31,13 @@ jobs:
               echo "This run is not from tag"
             fi
           fi
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            citest/ciapp
+
       - name: Deploy stage.dev
         if: github.event.inputs.environment == 'stage.dev'
         run: echo "Deploy stage.dev"
