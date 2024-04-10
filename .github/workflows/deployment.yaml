@@ -37,6 +37,7 @@ jobs:
             exit 1
           else
             echo "Tag is on main branch"
+          fi
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
