@@ -18,6 +18,10 @@ jobs:
     steps:
       - name: Checkout code
         run: echo "Checkout code"
+      - name: Checkout 
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: build container
         run: echo "Build container"
       - name: Check if workflow run from tag
