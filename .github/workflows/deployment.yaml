@@ -26,7 +26,8 @@ jobs:
         run: echo "Build container"
       - name: Check if workflow run from tag
         run: echo "Check if workflow run from tag"
-      - name: Verify tag is on main branch
+      - name: Verify tag is on main branch and return bool
+        id: verify_tag
         run: |
           TAG_NAME=$(git tag --contains ${{ github.sha }} | head -n 1)
           MAIN_COMMIT=$(git rev-list -n 1 $TAG_NAME)
@@ -34,9 +35,10 @@ jobs:
           
           if [[ "$MAIN_BRANCH" != *"origin/main"* ]]; then
             echo "Tag is not on main branch"
-            exit 1
+            echo "::set-output name=main_branch::false"
           else
             echo "Tag is on main branch"
+            echo "::set-output name=main_branch::false"
           fi
       - name: Docker meta
         id: meta
@@ -46,7 +48,8 @@ jobs:
             citest/ciapp
           tags: |
             # set latest tag for default branch
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable={{ steps.verify_tag.outputs.main_branch }}
+            type=semver,pattern={{version}}
 
       - name: Deploy stage.dev
         if: github.event.inputs.environment == 'stage.dev'
