@@ -25,7 +25,15 @@ jobs:
       - name: build container
         run: echo "Build container"
       - name: Check if workflow run from tag
-        run: echo "Check if workflow run from tag"
+        run: |
+          if [ -z "${GITHUB_REF##refs/tags/*}" ]; then
+            echo "Workflow run from tag"
+          else
+            echo "Workflow run not from tag"
+            exit 1
+          fi
+      - name: Check if tag is on main branch
+        run: echo "Check if tag is on main branch"
       - name: Verify tag is on main branch and return bool
         id: verify_tag
         run: |
