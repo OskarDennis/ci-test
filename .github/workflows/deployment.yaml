@@ -48,7 +48,7 @@ jobs:
             citest/ciapp
           tags: |
             # set latest tag for default branch
-            type=raw,value=latest,enable={{ steps.verify_tag.outputs.main_branch }}
+            type=raw,value=latest,enable=${{ steps.verify_tag.outputs.main_branch }}
             type=semver,pattern={{version}}
 
       - name: Deploy stage.dev
