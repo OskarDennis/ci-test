@@ -44,7 +44,6 @@ jobs:
           else
             echo "Tag is not on main branch"
             echo "main_branch=false" >> $GITHUB_ENV
-            exit 1
           fi 
 
       - name: Setup Docker metadata
