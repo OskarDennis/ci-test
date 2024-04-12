@@ -17,48 +17,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        run: echo "Checkout code"
-      - name: Checkout 
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: build container
-        run: echo "Build container"
-      - name: Check if workflow run from tag
+
+      - name: Check if Workflow execution is from a tag
         run: |
-          if [ -z "${GITHUB_REF##refs/tags/*}" ]; then
-            echo "Workflow run from tag"
-          else
-            echo "Workflow run not from tag"
+          if [[ "$GITHUB_REF" != refs/tags/* ]]; then
+            echo "::error::Workflow execution is not from a tag"
             exit 1
           fi
-      - name: Check if tag is on main branch
-        run: echo "Check if tag is on main branch"
-      - name: Verify tag is on main branch and return bool
+          echo "Run from Tag: $GITHUB_REF"
+
+      - name: Verify if tag is on main branch
         id: verify_tag
         run: |
           TAG_NAME=$(git tag --contains ${{ github.sha }} | head -n 1)
-          MAIN_COMMIT=$(git rev-list -n 1 $TAG_NAME)
-          MAIN_BRANCH=$(git branch -r --contains $MAIN_COMMIT | grep 'origin/main' | xargs)
-          
-          if [[ "$MAIN_BRANCH" != *"origin/main"* ]]; then
-            echo "Tag is not on main branch"
-            echo "main_branch=false" >> $GITHUB_OUTPUT
-          else
-            echo "Tag is on main branch"
-            echo "main_branch=true" >> $GITHUB_OUTPUT
+          if [[ -z "$TAG_NAME" ]]; then
+            echo "::error::No tag found for the commit."
+            exit 1
           fi
-      - name: Docker meta
-        id: meta
+          MAIN_COMMIT=$(git rev-list -n 1 "$TAG_NAME")
+          if git branch -r --contains "$MAIN_COMMIT" | grep -q 'origin/main'; then
+            echo "Tag is on main branch"
+            echo "main_branch=true" >> $GITHUB_ENV
+          else
+            echo "Tag is not on main branch"
+            echo "main_branch=false" >> $GITHUB_ENV
+            exit 1
+          fi 
+
+      - name: Setup Docker metadata
         uses: docker/metadata-action@v5
         with:
-          images: |
-            citest/ciapp
+          images: citest/ciapp
           tags: |
-            # set latest tag for default branch
-            type=raw,value=latest,enable=${{ steps.verify_tag.outputs.main_branch }}
             type=semver,pattern={{version}}
-
+            type=raw,value=latest,enable=${{ env.main_branch == 'true' }}
+  
       - name: Deploy stage.dev
         if: github.event.inputs.environment == 'stage.dev'
         run: echo "Deploy stage.dev"
