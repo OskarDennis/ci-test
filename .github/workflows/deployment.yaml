@@ -52,7 +52,6 @@ jobs:
           images: citest/ciapp
           tags: |
             type=semver,pattern={{version}}
-            type=raw,value=latest,enable=${{ env.main_branch == 'true' }}
   
       - name: Deploy stage.dev
         if: github.event.inputs.environment == 'stage.dev'
