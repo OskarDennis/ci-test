@@ -59,7 +59,11 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
+            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
+            type=ref,event=branch
+            type=ref,event=pr
             type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
   
       - name: Deploy stage.dev
         if: github.event.inputs.environment == 'stage.dev'
