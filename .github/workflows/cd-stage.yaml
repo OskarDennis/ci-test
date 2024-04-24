@@ -35,3 +35,4 @@ jobs:
           images: citest/ciapp
           tags: |
             type=semver,pattern={{version}}
+            type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
