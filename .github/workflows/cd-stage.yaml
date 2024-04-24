@@ -1,0 +1,37 @@
+#
+# 2 Workflows für Prod Deployment und Stage Deployment
+# Stage  aus Release Branches deployed
+# Stage bekommt keine Tags, sondern Build basiert auf Comit Hash
+# Prod kann nur von Tags deployed werden
+# Zwei Faktor deployment für Prod ()
+# Unit Test ausführung vor Deployment
+#
+#
+
+
+name: Build and Deploy (Stage)
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build and Deploy"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: 
+      name: Staging
+      url: https://stage.github.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Docker metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: citest/ciapp
+          tags: |
+            type=semver,pattern={{version}}
