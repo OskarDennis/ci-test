@@ -33,6 +33,3 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: citest/ciapp
-          tags: |
-            type=semver,pattern={{version}}
-            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
