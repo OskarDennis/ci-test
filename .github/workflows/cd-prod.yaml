@@ -59,8 +59,8 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=semver,pattern={{version}},priority=400
-            type=sha,enable=true,priority=300,prefix=,suffix=,format=short
+            type=sha,enable=true,priority=400,prefix=,suffix=,format=short
+            type=semver,pattern={{version}},priority=300
             type=ref,event=branch,priority=200
             type=ref,event=pr,priority=100
       - name: Deploy stage.dev
