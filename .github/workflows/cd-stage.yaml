@@ -34,8 +34,7 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            type=sha,enable=true,priority=400,prefix=,suffix=,format=short
+            type=semver,pattern={{version}},priority=300
+            type=ref,event=branch,priority=200
+            type=ref,event=pr,priority=100
