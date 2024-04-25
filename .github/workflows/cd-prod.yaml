@@ -55,6 +55,7 @@ jobs:
           fi 
 
       - name: Setup Docker metadata
+        id: meta
         uses: docker/metadata-action@v5
         with:
           images: citest/ciapp
@@ -63,6 +64,9 @@ jobs:
             type=semver,pattern={{version}},priority=300
             type=ref,event=branch,priority=200
             type=ref,event=pr,priority=100
+
+      - name: Print Docker metadata
+        run: echo ${{ fromJSON(steps.meta.outputs.json).tags }}
       - name: Deploy stage.dev
         if: github.event.inputs.environment == 'stage.dev'
         run: echo "Deploy stage.dev"
