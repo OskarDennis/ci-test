@@ -40,4 +40,4 @@ jobs:
             type=ref,event=branch,priority=200,suffix=-rc-${{ github.sha }}
             type=ref,event=pr,priority=100
       - name: Print Docker metadata
-        run: echo ${{ fromJSON(steps.meta.outputs.json).tags[1] }}
+        run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
