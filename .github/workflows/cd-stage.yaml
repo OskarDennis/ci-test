@@ -41,3 +41,7 @@ jobs:
             type=ref,event=pr,priority=100
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+      - name: Print short sha
+        run: git rev-parse --short HEAD
+      - name: Print secret
+        run: echo ${{ secrets.MY_SECRET }}
