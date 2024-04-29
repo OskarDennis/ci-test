@@ -12,6 +12,17 @@
 name: Build and Deploy (Development)
 on:
   workflow_dispatch:
+    inputs:
+
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: choice
+        default: 'Preview Environment'
+        options:
+          - Dominik
+          - Eduard
+          - Dennis
   workflow_run:
     workflows: ["Build and Deploy"]
     types:
