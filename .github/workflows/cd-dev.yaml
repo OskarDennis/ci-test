@@ -59,4 +59,4 @@ jobs:
       - name: Print secret
         run: echo ${{ secrets.MY_SECRET }}
       - name: Print secret
-        run: echo ${{ env.MY_VAR }}
+        run: echo ${{ vars.MY_VAR }}
