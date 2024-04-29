@@ -51,3 +51,9 @@ jobs:
       - name: Deploy prod.dev
         if: github.event.inputs.environment == 'prod.dev'
         run: echo "Deploy prod.dev "
+      - name: Print short sha
+        run: git rev-parse --short HEAD
+      - name: Print secret
+        run: echo ${{ secrets.MY_SECRET }}
+      - name: Print secret
+        run: echo ${{ vars.MY_VAR }}
