@@ -30,11 +30,14 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Docker metadata
+        id: meta
         uses: docker/metadata-action@v5
         with:
           images: citest/ciapp
           tags: |
             type=sha,enable=true,priority=400,prefix=,suffix=,format=short
-            type=semver,pattern={{version}},priority=300
-            type=ref,event=branch,priority=200
+            type=semver,pattern={{version}},priority=300,suffix=-rc-${{ github.sha }}
+            type=ref,event=branch,priority=200,suffix=-rc-${{ github.sha }}
             type=ref,event=pr,priority=100
+      - name: Print Docker metadata
+        run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}

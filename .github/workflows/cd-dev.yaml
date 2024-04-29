@@ -9,9 +9,20 @@
 #
 
 
-name: Build and Deploy (Prod) 
+name: Build and Deploy (Development)
 on:
   workflow_dispatch:
+    inputs:
+
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: choice
+        default: 'Preview Environment'
+        options:
+          - Dominik
+          - Eduard
+          - Dennis
   workflow_run:
     workflows: ["Build and Deploy"]
     types:
@@ -21,13 +32,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: 
-      name: Production
-      url: https://github.com
+      name: Development
+      url: https://dev.github.com
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Setup Docker metadata
         id: meta
         uses: docker/metadata-action@v5
@@ -35,19 +47,12 @@ jobs:
           images: citest/ciapp
           tags: |
             type=sha,enable=true,priority=400,prefix=,suffix=,format=short
-            type=semver,pattern={{version}},priority=300
-
+            type=semver,pattern={{version}},priority=300,suffix=-rc-${{ github.sha }}
+            type=ref,event=branch,priority=200,suffix=-rc-${{ github.sha }}
+            type=ref,event=pr,priority=100
+      - name: Print Docker metadata
+        run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[1] }}
-      - name: Deploy stage.dev
-        if: github.event.inputs.environment == 'stage.dev'
-        run: echo "Deploy stage.dev"
-      - name: Deploy stage-1.dev
-        if: github.event.inputs.environment == 'stage-1.dev'
-        run: echo "Deploy stage-1.dev"
-      - name: Deploy stage-2.dev
-        if: github.event.inputs.environment == 'stage-2.dev'
-        run: echo "Deploy stage-2.dev"
-      - name: Deploy prod.dev
-        if: github.event.inputs.environment == 'prod.dev'
-        run: echo "Deploy prod.dev "
+      - name: Print short sha
+        run: git rev-parse --short HEAD
