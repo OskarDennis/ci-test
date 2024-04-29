@@ -45,3 +45,5 @@ jobs:
         run: git rev-parse --short HEAD
       - name: Print secret
         run: echo ${{ secrets.MY_SECRET }}
+      - name: Print secret
+        run: echo ${{ env.MY_VAR }}
