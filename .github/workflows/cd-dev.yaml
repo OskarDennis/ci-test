@@ -55,7 +55,7 @@ jobs:
         run: echo ${{ fromJSON(steps.meta.outputs.json) }}
 
       - name: Print Docker metadata
-        run: echo ${{ fromJSON(steps.meta.outputs.json).labels.org.opencontainers.image.version }}
+        run: echo ${{ fromJSON(steps.meta.outputs.json).labels }}
 
       - name: Print short sha
         run: git rev-parse --short HEAD
