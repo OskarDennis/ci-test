@@ -1,6 +1,6 @@
 #
 # 2 Workflows für Prod Deployment und Stage Deployment
-# Stage  aus Release Branches deployed
+# Stage aus Release Branches deployed
 # Stage bekommt keine Tags, sondern Build basiert auf Comit Hash
 # Prod kann nur von Tags deployed werden
 # Zwei Faktor deployment für Prod ()
@@ -46,14 +46,17 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=sha,enable=true,priority=400,prefix=,suffix=,format=short
-            type=semver,pattern={{version}},priority=300,suffix=-rc-${{ github.sha }}
-            type=ref,event=branch,priority=200,suffix=-rc-${{ github.sha }}
-            type=ref,event=pr,priority=100
+            type=sha,enable=true,priority=400,prefix=develop-,suffix=,format=short
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[1] }}
+      - name: Print Docker metadata
+        run: echo ${{ fromJSON(steps.meta.outputs.json) }}
+
+      - name: Print Docker metadata
+        run: echo ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+
       - name: Print short sha
         run: git rev-parse --short HEAD
       - name: Print secret
