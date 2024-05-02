@@ -46,7 +46,7 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=sha,enable=true,priority=400,prefix=develop-,suffix=,format=short
+            type=sha,enable=true,priority=400,prefix=dev-,suffix=,format=short
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
       - name: Print Docker metadata

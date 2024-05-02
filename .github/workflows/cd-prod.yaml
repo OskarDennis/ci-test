@@ -35,22 +35,10 @@ jobs:
           images: citest/ciapp
           tags: |
             type=semver,pattern={{version}},priority=400
-            type=sha,enable=true,priority=300,prefix=,suffix=,format=short
+            type=sha,enable=true,priority=300,prefix=main-,suffix=,format=short
 
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[1] }}
-      - name: Deploy stage.dev
-        if: github.event.inputs.environment == 'stage.dev'
-        run: echo "Deploy stage.dev"
-      - name: Deploy stage-1.dev
-        if: github.event.inputs.environment == 'stage-1.dev'
-        run: echo "Deploy stage-1.dev"
-      - name: Deploy stage-2.dev
-        if: github.event.inputs.environment == 'stage-2.dev'
-        run: echo "Deploy stage-2.dev"
-      - name: Deploy prod.dev
-        if: github.event.inputs.environment == 'prod.dev'
-        run: echo "Deploy prod.dev "
       - name: Print short sha
         run: git rev-parse --short HEAD
       - name: Print secret

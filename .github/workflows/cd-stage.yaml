@@ -6,7 +6,6 @@
 # Zwei Faktor deployment für Prod ()
 # Unit Test ausführung vor Deployment
 #
-#
 
 
 name: Build and Deploy (Stage)
@@ -35,10 +34,8 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=sha,enable=true,priority=400,prefix=,suffix=,format=short
-            type=semver,pattern={{version}},priority=300,suffix=-rc-${{ github.sha }}
-            type=ref,event=branch,priority=200,suffix=-rc-${{ github.sha }}
-            type=ref,event=pr,priority=100
+            type=sha,enable=true,priority=400,prefix=rc-,suffix=,format=short
+            type=semver,pattern={{version}},priority=300,suffix=-rc-$(git rev-parse --short HEAD)
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
       - name: Print short sha
