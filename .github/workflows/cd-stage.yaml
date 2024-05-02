@@ -35,7 +35,7 @@ jobs:
           images: citest/ciapp
           tags: |
             type=sha,enable=true,priority=400,prefix=rc-,suffix=,format=short
-            type=semver,pattern={{version}},priority=300,suffix=-rc-$(git rev-parse --short HEAD)
+            type=ref,enable=true,priority=300,prefix=,suffix=$(git rev-parse --short HEAD),event=branch
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
       - name: Print short sha
