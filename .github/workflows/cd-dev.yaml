@@ -23,10 +23,6 @@ on:
           - Dominik
           - Eduard
           - Dennis
-  workflow_run:
-    workflows: ["Build and Deploy"]
-    types:
-      - completed
 
 jobs:
   build:
