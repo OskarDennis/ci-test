@@ -23,6 +23,10 @@ on:
           - Dominik
           - Eduard
           - Dennis
+      ticket:
+        description: 'Ticket number'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -43,6 +47,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: citest/ciapp
+          tags: |
+            type=raw,enable=true,priority=400,value=${{ github.event.inputs.ticket }},prefix=dev-,suffix=-${{ steps.short_sha.outputs.SHORT_SHA }}
+            type=ref,enable=true,priority=300,prefix=,suffix=-${{ steps.short_sha.outputs.SHORT_SHA }},event=branch
       - name: Print secret
         run: echo ${{ secrets.MY_SECRET }}
       - name: Print var
