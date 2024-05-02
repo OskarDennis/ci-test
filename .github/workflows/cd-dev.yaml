@@ -48,8 +48,7 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=raw,enable=true,priority=400,value=${{ github.event.inputs.ticket }},prefix=dev-,suffix=-${{ steps.short_sha.outputs.SHORT_SHA }}
-            type=ref,enable=true,priority=300,prefix=,suffix=-${{ steps.short_sha.outputs.SHORT_SHA }},event=branch
+            type=raw,enable=true,priority=400,value=${{ steps.short_sha.outputs.SHORT_SHA }},prefix=sha-
       - name: Print secret
         run: echo ${{ secrets.MY_SECRET }}
       - name: Print var
