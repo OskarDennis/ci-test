@@ -27,7 +27,7 @@ on:
         description: 'Ticket number'
         required: true
         type: string
-
+        default: 'JIRA-12345'
 jobs:
   build:
     runs-on: ubuntu-latest
