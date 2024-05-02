@@ -44,7 +44,7 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=match,pattern=feature/OSKAR-\d+,enable=true,priority=400,prefix=,suffix=-${{ steps.short_sha.outputs.SHORT_SHA }},event=branch
+            type=match,enable=true,priority=800,prefix=,suffix=,pattern=,group=0,value=
             type=ref,enable=true,priority=300,prefix=,suffix=-${{ steps.short_sha.outputs.SHORT_SHA }},event=branch
       - name: Print secret
         run: echo ${{ secrets.MY_SECRET }}
