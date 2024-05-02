@@ -42,7 +42,6 @@ jobs:
       - name: Get short sha
         id: short_sha
         run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT 
-  
       - name: Setup Docker metadata
         id: meta
         uses: docker/metadata-action@v5
@@ -50,19 +49,7 @@ jobs:
           images: citest/ciapp
           tags: |
            type=ref,enable=true,priority=300,prefix=,suffix=-${{ steps.short_sha.outputs.SHORT_SHA }},event=branch
-      - name: Print Docker metadata
-        run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
-      - name: Print Docker metadata
-        run: echo ${{ fromJSON(steps.meta.outputs.json).tags[1] }}
-      - name: Print Docker metadata
-        run: echo ${{ fromJSON(steps.meta.outputs.json) }}
-
-      - name: Print Docker metadata
-        run: echo ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
-
-      - name: Print short sha
-        run: git rev-parse --short HEAD
       - name: Print secret
         run: echo ${{ secrets.MY_SECRET }}
-      - name: Print secret
+      - name: Print var
         run: echo ${{ vars.MY_VAR }}
