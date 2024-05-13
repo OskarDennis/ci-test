@@ -12,7 +12,7 @@ name: Build and Deploy (Stage)
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Build and Deploy"]
+    workflows: ["Build Container"]
     types:
       - completed
 
@@ -36,11 +36,11 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=ref,enable=true,priority=300,prefix=,suffix=-${{ steps.short_sha.outputs.SHORT_SHA }},event=branch
+            type=ref,enable=true,priority=300,prefix=,suffix=-rc-${{ steps.short_sha.outputs.SHORT_SHA }},event=branch
       - name: Print Docker metadata
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
 
       - name: Print secret
         run: echo ${{ secrets.MY_SECRET }}
-      - name: Print secret
+      - name: Print var
         run: echo ${{ vars.MY_VAR }}
