@@ -34,7 +34,7 @@ jobs:
             echo "Tag is on main branch."
           else
             echo "Tag is not on main branch."
-            exit 1  # Stoppt den Workflow, falls das Tag nicht auf dem main-Branch ist
+            exit 1  # Stoppt den Workflow, falls das Tag nicht auf dem main-Branch ist 
           fi
       - name: Get short sha
         id: short_sha
