@@ -13,21 +13,21 @@ name: Build and Deploy (Development)
 on:
   workflow_dispatch:
     inputs:
-
       environment:
         description: 'Environment to deploy to'
         required: true
         type: choice
         default: 'Preview Environment'
         options:
-          - Dominik
-          - Eduard
-          - Dennis
+          - Preview-Dominik
+          - Preview-Eduard
+          - Preview-Dennis
       additional_tag_info:
         description: 'Additional tag information'
         required: false
         type: string
         default: ''
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-            type=raw,enable=true,priority=400,value=${{ steps.short_sha.outputs.SHORT_SHA }},prefix=sha-,suffix=_${{ github.event.inputs.additional_tag_info }}
+            type=raw,enable=true,priority=400,value=${{ steps.short_sha.outputs.SHORT_SHA }},prefix=sha-,suffix=${{ github.event.inputs.additional_tag_info }}
       - name: Print secret
         run: echo ${{ secrets.MY_SECRET }}
       - name: Print var
