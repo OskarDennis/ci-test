@@ -18,3 +18,14 @@ jobs:
           echo "Wait to complete"
           sleep 10
           echo "Complete"
+  testcoding:
+    name: Testing Code Dennis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        run: echo "Checkout repo"
+      - name: Wait to complete
+        run: |
+          echo "Wait to complete"
+          sleep 10
+          echo "Complete"
