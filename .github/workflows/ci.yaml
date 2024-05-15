@@ -29,4 +29,3 @@ jobs:
           echo "Wait to complete"
           sleep 10
           echo "Complete"
-          exit 1;
