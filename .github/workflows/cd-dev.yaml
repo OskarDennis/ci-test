@@ -58,3 +58,26 @@ jobs:
         run: echo ${{ secrets.MY_SECRET }}
       - name: Print var
         run: echo ${{ vars.MY_VAR }}
+  deploy-prod:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    environment: 
+      name: Production
+      url: https://prod.github.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: citest/ciapp
+          tags: |
+            type=sha,enable=true,priority=400,prefix=,suffix=,format=short
+      - name: Print secret
+        run: echo ${{ secrets.MY_SECRET }}
+      - name: Print var
+        run: echo ${{ vars.MY_VAR }}
