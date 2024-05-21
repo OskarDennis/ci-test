@@ -42,6 +42,9 @@ jobs:
       - name: Get short sha
         id: short_sha
         run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT 
+      - name: Call CI yaml
+        uses: ./.github/workflows/ci.yaml
+
       - name: Setup Docker metadata
         id: meta
         uses: docker/metadata-action@v5
