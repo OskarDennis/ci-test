@@ -29,6 +29,9 @@ on:
         default: ''
 
 jobs:
+  ci:
+    name: Run CI
+    uses: ./.github/workflows/ci.yaml
   build:
     runs-on: ubuntu-latest
     environment: 
@@ -42,8 +45,6 @@ jobs:
       - name: Get short sha
         id: short_sha
         run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT 
-      - name: Call CI yaml
-        uses: ./.github/workflows/ci.yaml
 
       - name: Setup Docker metadata
         id: meta
