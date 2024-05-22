@@ -6,12 +6,19 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_call:
-
+    inputs:
+      skip-sonar: 
+        description: 'Skip SonarQube analysis'
+        required: false
+        default: false
+        type: boolean
     
 
 jobs:
-  sonarqube:
-    name: SonarQube
+  ci:
+    # Skip SonarCloud analysis if requested
+    if: ${{ inputs.skip-sonar }}
+    name: CI without SonarCloud
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -21,8 +28,9 @@ jobs:
           echo "Wait to complete"
           sleep 10
           echo "Complete"
-  testcoding:
-    name: Testing Code Dennis
+  ci-with-sonarcloud:
+    name: CI with SonarCloud
+    if: ${{ !inputs.skip-sonar }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
