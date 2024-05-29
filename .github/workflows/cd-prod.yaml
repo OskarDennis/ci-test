@@ -28,6 +28,7 @@ jobs:
         run: echo "Run tests"
   build:
     runs-on: ubuntu-latest
+    needs: test
     environment: 
       name: Production
       url: https://github.com
