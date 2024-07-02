@@ -6,36 +6,20 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_call:
-    inputs:
-      skip-sonar: 
-        description: 'Skip SonarQube analysis'
-        required: false
-        default: false
-        type: boolean
 
 jobs:
-  ci:
-    # Skip SonarCloud analysis if requested
-    if: ${{ inputs.skip-sonar }}
+  sonarscan:
     name: CI without SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        run: echo "Checkout repo"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Wait to complete
         run: |
-          echo "Wait to complete"
-          sleep 10
-          echo "Complete"
-  ci-with-sonarcloud:
-    name: CI with SonarCloud
-    if: ${{ !inputs.skip-sonar }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        run: echo "Checkout repo"
-      - name: Wait to complete
-        run: |
+          ls -ltra
           echo "Wait to complete"
           sleep 10
           echo "Complete"
