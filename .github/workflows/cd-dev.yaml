@@ -27,6 +27,11 @@ on:
           - Preview-Dominik
           - Preview-Eduard
           - Preview-Dennis
+      sonarcheck:
+        description: 'Run SonarQube check'
+        required: true
+        type: boolean
+        default: false
       additional_tag_info:
         description: 'Additional tag information'
         required: false
@@ -36,6 +41,7 @@ on:
 jobs:
   ci:
     name: Run CI
+    if: ${{ github.event.inputs.sonarcheck }}
     uses: ./.github/workflows/ci.yaml
   build:
     runs-on: ubuntu-latest
