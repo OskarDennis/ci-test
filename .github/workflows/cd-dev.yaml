@@ -35,7 +35,6 @@ on:
 
 jobs:
   ci:
-    if: 1 == 2
     name: Run CI
     uses: ./.github/workflows/ci.yaml
   build:
@@ -65,6 +64,7 @@ jobs:
   deploy-prod:
     name: Deploy to Production
     runs-on: ubuntu-latest
+    if: success()
     needs: [build]
     environment: 
       name: Development
