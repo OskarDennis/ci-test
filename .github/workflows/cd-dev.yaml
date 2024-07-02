@@ -41,7 +41,7 @@ on:
 jobs:
   ci:
     name: Run CI
-    if: ${{ github.event.inputs.sonarcheck }}
+    if: ${{ github.event.inputs.sonarcheck }} == true
     uses: ./.github/workflows/ci.yaml
   build:
     runs-on: ubuntu-latest
