@@ -9,6 +9,7 @@
 
 
 name: Build and Deploy (Prod) 
+run-name: Deploying commit ${{ github.sha }} to Production
 on:
   workflow_dispatch:
   workflow_run:
