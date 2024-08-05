@@ -36,6 +36,6 @@ jobs:
           tags: |
               type=sha,enable=true,priority=400,prefix=,suffix=,format=short
               type=schedule,enable=true,priority=500
-              type=ref,event=branch
-              type=ref,event=tag
-              type=ref,event=pr
+              type=ref,event=branch,enable=true,priority=300
+              type=ref,event=tag,enable=true,priority=300
+              type=ref,event=pr,enable=true,priority=300
