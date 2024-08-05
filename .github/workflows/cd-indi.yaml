@@ -33,7 +33,6 @@ jobs:
         with:
           images: citest/ciapp
           tags: |
-              type=sha,enable=true,priority=400,prefix=,suffix=,format=short
+              type=sha,enable=true,priority=400,prefix={{date 'YYYYMMDDtHHmmss' tz='Europe/Berlin'}}-,suffix=,format=short
               type=ref,event=tag,enable=true,priority=300
-              type=ref,event=pr,enable=true,priority=300
               type=ref,event=branch,enable=true,priority=300
