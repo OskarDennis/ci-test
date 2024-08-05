@@ -38,4 +38,4 @@ jobs:
               type=schedule,enable=true,priority=500
               type=ref,event=branch
               type=ref,event=tag
-              type=ref,event=pr      - name: Print secret
+              type=ref,event=pr
