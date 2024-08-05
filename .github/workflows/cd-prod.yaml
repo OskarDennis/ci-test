@@ -9,6 +9,7 @@
 
 
 name: Build and Deploy (Prod) 
+run-name: Deploying commit ${{ github.ref }} with short sha ${{ steps.short_sha.outputs.SHORT_SHA }}
 on:
   workflow_dispatch:
   workflow_run:
