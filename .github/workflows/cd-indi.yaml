@@ -36,3 +36,10 @@ jobs:
               type=sha,enable=true,priority=400,prefix={{date 'YYYYMMDDtHHmmss' tz='Europe/Berlin'}}-,suffix=,format=short
               type=ref,event=tag,enable=true,priority=300
               type=ref,event=branch,enable=true,priority=300
+      - name: Get current time
+        uses: gerred/actions/current-time@master
+        id: current-time
+      - name: Use current time
+        env:
+          TIME: "${{ steps.current-time.outputs.time }}"
+        run: echo $TIME
