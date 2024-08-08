@@ -32,14 +32,13 @@ jobs:
         with:
           scan-type: 'fs'
           scan-ref: '.'
-          severity: 'CRITICAL,HIGH'
+          severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
           scanners: 'vuln,secret,misconfig'
           ignore-unfixed: false
           format: 'json'
           output: 'trivy-report.json'
       - name: Add Trivy results to GitHub step summary
         run: |
-          ls -la
           cat trivy-report.json
           echo "### Trivy Scan Summary" >> $GITHUB_STEP_SUMMARY
           if [ -s trivy-report.json ]; then
