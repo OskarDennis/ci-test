@@ -33,7 +33,7 @@ jobs:
           scan-type: 'fs'
           scan-ref: '.'
           severity: 'CRITICAL,HIGH'
-          scanners: 'vuln,secret,config'
+          scanners: 'vuln,secret,misconfig'
           ignore-unfixed: false
           format: 'json'
           output: 'trivy-report.json'
