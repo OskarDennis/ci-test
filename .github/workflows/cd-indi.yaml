@@ -34,7 +34,7 @@ jobs:
           scan-ref: '.'
           severity: 'CRITICAL,HIGH'
           scanners: 'vuln,secret,config'
-          ignore-unfixed: true
+          ignore-unfixed: false
           format: 'json'
           output: 'trivy-report.json'
       - name: Add Trivy results to GitHub step summary
@@ -43,13 +43,13 @@ jobs:
           cat trivy-report.json
           echo "### Trivy Scan Summary" >> $GITHUB_STEP_SUMMARY
           if [ -s trivy-report.json ]; then
-            critical_issues=$(jq '.Results[].Vulnerabilities[] | select(.Severity == "CRITICAL") | .VulnerabilityID' trivy-report.json | wc -l)
-            high_issues=$(jq '.Results[].Vulnerabilities[] | select(.Severity == "HIGH") | .VulnerabilityID' trivy-report.json | wc -l)
+            critical_issues=$(jq '[.Results[]? | select(.Vulnerabilities != null) | .Vulnerabilities[] | select(.Severity == "CRITICAL")] | length' trivy-report.json)
+            high_issues=$(jq '[.Results[]? | select(.Vulnerabilities != null) | .Vulnerabilities[] | select(.Severity == "HIGH")] | length' trivy-report.json)
             echo "- **CRITICAL Issues**: $critical_issues" >> $GITHUB_STEP_SUMMARY
             echo "- **HIGH Issues**: $high_issues" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "#### Detailed Results" >> $GITHUB_STEP_SUMMARY
-            jq -r '.Results[] | select(.Vulnerabilities != null) | .Vulnerabilities[] | "- **Vulnerability**: \(.VulnerabilityID)\n  - **Package**: \(.PkgName)\n  - **Severity**: \(.Severity)\n  - **Installed Version**: \(.InstalledVersion)\n  - **Fixed Version**: \(.FixedVersion // "Not available")\n"' trivy-report.json >> $GITHUB_STEP_SUMMARY
+            jq -r '.Results[]? | select(.Vulnerabilities != null) | .Vulnerabilities[] | "- **Vulnerability**: \(.VulnerabilityID)\n  - **Package**: \(.PkgName)\n  - **Severity**: \(.Severity)\n  - **Installed Version**: \(.InstalledVersion)\n  - **Fixed Version**: \(.FixedVersion // "Not available")\n"' trivy-report.json >> $GITHUB_STEP_SUMMARY
           else
             echo "No vulnerabilities found!" >> $GITHUB_STEP_SUMMARY
           fi
