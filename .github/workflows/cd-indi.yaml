@@ -44,8 +44,10 @@ jobs:
           if [ -s trivy-report.json ]; then
             critical_issues=$(jq '[.Results[]? | select(.Vulnerabilities != null) | .Vulnerabilities[] | select(.Severity == "CRITICAL")] | length' trivy-report.json)
             high_issues=$(jq '[.Results[]? | select(.Vulnerabilities != null) | .Vulnerabilities[] | select(.Severity == "HIGH")] | length' trivy-report.json)
+            low_issues=$(jq '[.Results[]? | select(.Vulnerabilities != null) | .Vulnerabilities[] | select(.Severity == "LOW")] | length' trivy-report.json)
             echo "- **CRITICAL Issues**: $critical_issues" >> $GITHUB_STEP_SUMMARY
             echo "- **HIGH Issues**: $high_issues" >> $GITHUB_STEP_SUMMARY
+            echo "- **LOW Issues**: $low_issues" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "#### Detailed Results" >> $GITHUB_STEP_SUMMARY
             jq -r '.Results[]? | select(.Vulnerabilities != null) | .Vulnerabilities[] | "- **Vulnerability**: \(.VulnerabilityID)\n  - **Package**: \(.PkgName)\n  - **Severity**: \(.Severity)\n  - **Installed Version**: \(.InstalledVersion)\n  - **Fixed Version**: \(.FixedVersion // "Not available")\n"' trivy-report.json >> $GITHUB_STEP_SUMMARY
