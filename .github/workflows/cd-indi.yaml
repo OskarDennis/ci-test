@@ -53,11 +53,11 @@ jobs:
             echo "No vulnerabilities found!" >> $GITHUB_STEP_SUMMARY
           fi
   
-        - name: Upload Trivy scan results
-          uses: actions/upload-artifact@v3
-          with:
-            name: trivy-report
-            path: trivy-report.json
+      - name: Upload Trivy scan results
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-report
+          path: trivy-report.json
   
       - name: Setup Docker metadata
         id: meta
