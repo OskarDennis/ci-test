@@ -33,8 +33,9 @@ jobs:
           scan-type: 'fs'
           scan-ref: '.'
           severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
-          scanners: 'vuln,secret,misconfig'
+          scanners: 'vuln,secret,misconfig,config'
           ignore-unfixed: false
+          vuln-type: 'os,library'
           format: 'json'
           output: 'trivy-report.json'
       - name: Add Trivy results to GitHub step summary
