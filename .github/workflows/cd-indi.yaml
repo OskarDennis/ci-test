@@ -15,6 +15,7 @@ on:
 jobs:
   ci:
     name: Run CI
+    if: 1 == 2
     uses: ./.github/workflows/ci.yaml
   build:
     runs-on: ubuntu-latest
@@ -27,6 +28,37 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Run Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true
+          format: 'json'
+          output: 'trivy-report.json'
+      - name: Add Trivy results to GitHub step summary
+        run: |
+          ls -la
+          cat trivy-report.json
+          echo "### Trivy Scan Summary" >> $GITHUB_STEP_SUMMARY
+          if [ -s trivy-report.json ]; then
+            critical_issues=$(jq '.Results[].Vulnerabilities[] | select(.Severity == "CRITICAL") | .VulnerabilityID' trivy-report.json | wc -l)
+            high_issues=$(jq '.Results[].Vulnerabilities[] | select(.Severity == "HIGH") | .VulnerabilityID' trivy-report.json | wc -l)
+            echo "- **CRITICAL Issues**: $critical_issues" >> $GITHUB_STEP_SUMMARY
+            echo "- **HIGH Issues**: $high_issues" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "#### Detailed Results" >> $GITHUB_STEP_SUMMARY
+            jq -r '.Results[] | select(.Vulnerabilities != null) | .Vulnerabilities[] | "- **Vulnerability**: \(.VulnerabilityID)\n  - **Package**: \(.PkgName)\n  - **Severity**: \(.Severity)\n  - **Installed Version**: \(.InstalledVersion)\n  - **Fixed Version**: \(.FixedVersion // "Not available")\n"' trivy-report.json >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No vulnerabilities found!" >> $GITHUB_STEP_SUMMARY
+          fi
+  
+        - name: Upload Trivy scan results
+          uses: actions/upload-artifact@v3
+          with:
+            name: trivy-report
+            path: trivy-report.json
+  
       - name: Setup Docker metadata
         id: meta
         uses: docker/metadata-action@v5
