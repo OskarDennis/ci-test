@@ -31,7 +31,9 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
+          scan-ref: '.'
           severity: 'CRITICAL,HIGH'
+          scanners: 'vuln,secret,config'
           ignore-unfixed: true
           format: 'json'
           output: 'trivy-report.json'
